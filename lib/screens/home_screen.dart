@@ -64,23 +64,23 @@ class _HomeScreenState extends State<HomeScreen> {
       // "vacío" y "falló" — el FutureBuilder real inspecciona el estado
       // del snapshot y dibuja LoadingView/ErrorView/EmptyView según
       // corresponda, para que la pantalla nunca quede en blanco.
-      body: const Center(child: Text('Cargando lugares...')),
-      // body: FutureBuilder<List<Place>>(
-      //   future: _futuroLugares,
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const LoadingView(mensaje: 'Buscando lugares cercanos...');
-      //     }
-      //     if (snapshot.hasError) {
-      //       return ErrorView(mensaje: '${snapshot.error}', onReintentar: _cargar);
-      //     }
-      //     final lugares = snapshot.data ?? [];
-      //     if (lugares.isEmpty) {
-      //       return const EmptyView(mensaje: 'Todavía no hay lugares guardados');
-      //     }
-      //     return _buildLista(lugares);
-      //   },
-      // ),
+      //body: const Center(child: Text('Cargando lugares...')),
+       body: FutureBuilder<List<Place>>(
+         future: _futuroLugares,
+         builder: (context, snapshot) {
+           if (snapshot.connectionState == ConnectionState.waiting) {
+             return const LoadingView(mensaje: 'Buscando lugares cercanos...');
+           }
+           if (snapshot.hasError) {
+             return ErrorView(mensaje: '${snapshot.error}', onReintentar: _cargar);
+           }
+           final lugares = snapshot.data ?? [];
+           if (lugares.isEmpty) {
+             return const EmptyView(mensaje: 'Todavía no hay lugares guardados');
+           }
+           return _buildLista(lugares);
+         },
+       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
@@ -99,30 +99,30 @@ class _HomeScreenState extends State<HomeScreen> {
   // sin importar el ancho de pantalla — la versión real usa
   // LayoutBuilder para leer el ancho disponible y elegir ListView
   // (teléfono angosto) o GridView de 2-3 columnas (pantalla ancha).
-  Widget _buildLista(List<Place> lugares) => ListView.builder(
-        itemCount: lugares.length,
-        itemBuilder: (context, index) => PlaceCard(place: lugares[index]),
-      );
-  // Widget _buildLista(List<Place> lugares) {
-  //   return LayoutBuilder(
-  //     builder: (context, constraints) {
-  //       if (constraints.maxWidth < 600) {
-  //         return ListView.builder(
-  //           itemCount: lugares.length,
-  //           itemBuilder: (context, index) => PlaceCard(place: lugares[index]),
-  //         );
-  //       }
-  //       final columnas = constraints.maxWidth < 900 ? 2 : 3;
-  //       return GridView.builder(
-  //         padding: const EdgeInsets.all(AppSpacing.sm),
-  //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //           crossAxisCount: columnas,
-  //           childAspectRatio: 2.2,
-  //         ),
-  //         itemCount: lugares.length,
-  //         itemBuilder: (context, index) => PlaceCard(place: lugares[index]),
-  //       );
-  //     },
-  //   );
-  // }
+  //Widget _buildLista(List<Place> lugares) => ListView.builder(
+    //    itemCount: lugares.length,
+      //  itemBuilder: (context, index) => PlaceCard(place: lugares[index]),
+      //);
+   Widget _buildLista(List<Place> lugares) {
+     return LayoutBuilder(
+       builder: (context, constraints) {
+         if (constraints.maxWidth < 600) {
+           return ListView.builder(
+             itemCount: lugares.length,
+             itemBuilder: (context, index) => PlaceCard(place: lugares[index]),
+           );
+         }
+         final columnas = constraints.maxWidth < 900 ? 2 : 3;
+         return GridView.builder(
+           padding: const EdgeInsets.all(AppSpacing.sm),
+           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+             crossAxisCount: columnas,
+             childAspectRatio: 2.2,
+           ),
+           itemCount: lugares.length,
+           itemBuilder: (context, index) => PlaceCard(place: lugares[index]),
+         );
+       },
+     );
+   }
 }

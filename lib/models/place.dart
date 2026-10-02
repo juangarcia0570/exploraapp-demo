@@ -84,13 +84,13 @@ final List<Place> lugaresEjemplo = [
 // real agrega un delay (para que el loading se note) y los parámetros
 // forzarError/forzarVacio, que simulan los otros dos estados a pedido,
 // sin depender de una red real.
-Future<List<Place>> fetchLugaresSimulado({bool forzarError = false, bool forzarVacio = false}) async {
-  return lugaresEjemplo;
-}
-// Future<List<Place>> fetchLugaresSimulado({bool forzarError = false, bool forzarVacio = false}) async {
-//   await Future.delayed(const Duration(seconds: 1));
-//   if (forzarError) {
-//     throw Exception('No se pudo conectar con el servidor (simulado)');
-//   }
-//   return forzarVacio ? <Place>[] : lugaresEjemplo;
-// }
+//Future<List<Place>> fetchLugaresSimulado({bool forzarError = false, bool forzarVacio = false}) async {
+  //return lugaresEjemplo;
+//}
+ Future<List<Place>> fetchLugaresSimulado({bool forzarError = false, bool forzarVacio = false}) async {
+   await Future.delayed(const Duration(seconds: 1));
+   if (forzarError) {
+     throw Exception('No se pudo conectar con el servidor (simulado)');
+   }
+   return forzarVacio ? <Place>[] : lugaresEjemplo;
+ }

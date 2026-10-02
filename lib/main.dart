@@ -20,14 +20,14 @@ class ExploraEcApp extends StatelessWidget {
       // Flutter — AppTheme.theme aplica la paleta de colores, tipografía
       // y espaciado propios de ExploraEC en toda la app de una sola vez,
       // sin tener que repetir estilos pantalla por pantalla.
-      theme: ThemeData(useMaterial3: true),
-      // theme: AppTheme.theme,
+      //theme: ThemeData(useMaterial3: true),
+       theme: AppTheme.theme,
       // TODO(sesion-03): OPCIONAL — descomenta las dos líneas de abajo (Paso 6 — modo oscuro). No borres nada.
       // Por qué: darkTheme le da a MaterialApp una segunda paleta, y
       // ThemeMode.system elige entre las dos según la preferencia del
       // dispositivo (Ajustes → Pantalla → Tema oscuro), sin código extra.
-      // darkTheme: AppTheme.darkTheme,
-      // themeMode: ThemeMode.system,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       home: const RootShell(),
     );
   }

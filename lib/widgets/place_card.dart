@@ -28,14 +28,14 @@ class PlaceCard extends StatelessWidget {
         // label de abajo, vuelva a leer el nombre/categoría/descripción de
         // _buildContenido() por separado — sin esa línea se anuncian los dos
         // a la vez, uno detrás del otro.
-        child: _buildContenido(context),
-        // child: Semantics(
-        //   label: '${place.nombre}, categoría ${place.categoria}',
-        //   hint: 'Toca dos veces para ver el detalle',
-        //   button: true,
-        //   excludeSemantics: true,
-        //   child: _buildContenido(context),
-        // ),
+        //child: _buildContenido(context),
+         child: Semantics(
+           label: '${place.nombre}, categoría ${place.categoria}',
+           hint: 'Toca dos veces para ver el detalle',
+           button: true,
+           excludeSemantics: true,
+           child: _buildContenido(context),
+         ),
       ),
     );
   }
