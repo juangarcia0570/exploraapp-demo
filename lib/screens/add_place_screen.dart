@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/places_controller.dart';
 import '../models/place.dart';
 
-/// Formulario "Agregar lugar": valida y agrega un [Place] a la lista
-/// en memoria — Sesión 2. Persistencia real llega en la Sesión 7.
+/// Formulario "Agregar lugar": valida y agrega un [Place] — Sesión 2.
+/// Desde la Sesión 4, el nuevo lugar se agrega vía `PlacesController`
+/// (`Get.find`) en vez de mutar `lugaresEjemplo` directamente y recargar a
+/// mano al volver: Inicio (y, más adelante, el Mapa) lo muestran de
+/// inmediato. Persistencia real (que sobreviva reiniciar la app) llega en
+/// la Sesión 7.
 class AddPlaceScreen extends StatefulWidget {
   const AddPlaceScreen({super.key});
 
@@ -57,7 +64,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    lugaresEjemplo.add(Place(
+                    Get.find<PlacesController>().agregarLugar(Place(
                       id: DateTime.now().millisecondsSinceEpoch.toString(),
                       nombre: _nombreController.text.trim(),
                       categoria: _categoriaController.text.trim(),
@@ -65,7 +72,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       lat: -0.1807,
                       lng: -78.4859,
                     ));
-                    Navigator.pop(context);
+                    Get.back();
+                    Get.snackbar('Lugar agregado', 'Ya aparece en Inicio');
                   }
                 },
                 child: const Text('Guardar'),
