@@ -24,61 +24,42 @@ class HomeScreen extends GetView<PlacesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //title: const Text('ExploraEC'),
         title: Obx(() => Text('ExploraEC (${controller.total})')),
         actions: [
-          // TODO(sesion-04): OPCIONAL — descomenta el bloque de abajo (Paso 6B — idioma). No borres nada.
-          // Por qué: `Get.updateLocale` cambia el idioma activo y reconstruye
-          // la app entera sin `setState` ni `context`: es estado global, igual
-          // que `PlacesController`, pero manejado por el propio GetX.
-           IconButton(
-             icon: const Icon(Icons.translate),
-             tooltip: 'idioma'.tr,
-             onPressed: () {
-               final esEspanol = Get.locale?.languageCode == 'es';
-               Get.updateLocale(esEspanol ? const Locale('en', 'US') : const Locale('es', 'EC'));
-             },
-           ),
+          IconButton(
+            icon: const Icon(Icons.translate),
+            tooltip: 'idioma'.tr,
+            onPressed: () {
+              final esEspanol = Get.locale?.languageCode == 'es';
+              Get.updateLocale(esEspanol ? const Locale('en', 'US') : const Locale('es', 'EC'));
+            },
+          ),
           PopupMenuButton<String>(
             tooltip: 'Simular estado (solo práctica)',
             onSelected: controller.simular,
-            // TODO(sesion-04): OPCIONAL — borra el bloque `itemBuilder` de abajo y descomenta el bloque completo. (Paso 6B — idioma)
-            // Por qué: igual que en la barra inferior, el texto pasa a
-            // `.tr` y la lista deja de ser `const`.
-            //itemBuilder: (context) => const [
-              //PopupMenuItem(value: 'normal', child: Text('Simular: normal')),
-              //PopupMenuItem(value: 'vacio', child: Text('Simular: vacío')),
-              //PopupMenuItem(value: 'error', child: Text('Simular: error')),
-            //],
-             itemBuilder: (context) => [
-               PopupMenuItem(value: 'normal', child: Text('sim_normal'.tr)),
-               PopupMenuItem(value: 'vacio', child: Text('sim_vacio'.tr)),
-               PopupMenuItem(value: 'error', child: Text('sim_error'.tr)),
-             ],
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'normal', child: Text('sim_normal'.tr)),
+              PopupMenuItem(value: 'vacio', child: Text('sim_vacio'.tr)),
+              PopupMenuItem(value: 'error', child: Text('sim_error'.tr)),
+            ],
           ),
         ],
       ),
-      // TODO(sesion-04): borra la línea de abajo y descomenta el bloque completo. (Paso 3 — reactividad con Obx)
-      // Por qué: el texto fijo de abajo nunca cambia porque nada lo
-      // observa — Obx reconstruye automáticamente su contenido cada vez
-      // que una variable Rx que lee (controller.estado, controller.lugares)
-      // cambia, sin necesitar setState ni StatefulWidget en esta pantalla.
-      //body: const Center(child: Text('Pendiente de conectar con Obx')),
-       body: Obx(() {
-         if (controller.estado.value == EstadoCarga.cargando) {
-           return const LoadingView(mensaje: 'Buscando lugares cercanos...');
-         }
-         if (controller.estado.value == EstadoCarga.error) {
-           return ErrorView(
-             mensaje: controller.mensajeError.value,
-             onReintentar: controller.cargarLugares,
-           );
-         }
-         if (controller.lugares.isEmpty) {
-           return const EmptyView(mensaje: 'Todavía no hay lugares guardados');
-         }
-         return _buildLista(controller.lugares);
-       }),
+      body: Obx(() {
+        if (controller.estado.value == EstadoCarga.cargando) {
+          return const LoadingView(mensaje: 'Buscando lugares cercanos...');
+        }
+        if (controller.estado.value == EstadoCarga.error) {
+          return ErrorView(
+            mensaje: controller.mensajeError.value,
+            onReintentar: controller.cargarLugares,
+          );
+        }
+        if (controller.lugares.isEmpty) {
+          return const EmptyView(mensaje: 'Todavía no hay lugares guardados');
+        }
+        return _buildLista(controller.lugares);
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => const AddPlaceScreen()),
         child: const Icon(Icons.add),
