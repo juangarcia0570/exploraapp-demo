@@ -50,20 +50,19 @@ class _MapScreenState extends State<MapScreen> {
         }
         return _buildMapa(context, controller.posicion.value!, controller.lugares);
       }),
-      // TODO(sesion-05): OPCIONAL — descomenta el bloque de abajo (Paso 7A — centrar el mapa). No borres nada.
       // Por qué: el `mapController` de arriba ya está conectado al
       // `FlutterMap`; este botón lo usa como "control remoto" para volver
       // a la posición del usuario con `move(...)` después de arrastrar el
       // mapa, sin que la persona tenga que buscarse a mano.
-       floatingActionButton: FloatingActionButton(
-         tooltip: 'Centrar en mi ubicación',
-         onPressed: () {
-           final pos = controller.posicion.value;
-           if (pos == null) return;
-           mapController.move(LatLng(pos.latitude, pos.longitude), 15);
-         },
-         child: const Icon(Icons.my_location),
-       ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Centrar en mi ubicación',
+        onPressed: () {
+          final pos = controller.posicion.value;
+          if (pos == null) return;
+          mapController.move(LatLng(pos.latitude, pos.longitude), 15);
+        },
+        child: const Icon(Icons.my_location),
+      ),
     );
   }
 
@@ -80,36 +79,30 @@ class _MapScreenState extends State<MapScreen> {
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.tmo.exploraec',
         ),
-        // TODO(sesion-05): borra la línea de abajo y descomenta el bloque completo. (Paso 4 — marcadores)
-        // Por qué: sin marcadores el mapa se ve pero no comunica nada —
-        // el bloque real agrega uno para la posición del usuario y uno
-        // por cada Place que expone el controller, cada uno navegando al
-        // Detalle (con la distancia ya calculada) al tocarlo.
-        //const MarkerLayer(markers: []),
-         MarkerLayer(
-           markers: [
-             Marker(
-               point: miUbicacion,
-               width: 40,
-               height: 40,
-               child: const Icon(Icons.my_location, color: Colors.blue, size: 32),
-             ),
-             ...lugares.map(
-               (lugar) => Marker(
-                 point: LatLng(lugar.lat, lugar.lng),
-                 width: 40,
-                 height: 40,
-                 child: GestureDetector(
-                   onTap: () => Get.to(() => DetailScreen(
-                         place: lugar,
-                         distanciaMetros: controller.distanciaA(lugar),
-                       )),
-                   child: Icon(Icons.place, color: AppTheme.colorPrimario, size: 36),
-                 ),
-               ),
-             ),
-           ],
-         ),
+        MarkerLayer(
+          markers: [
+            Marker(
+              point: miUbicacion,
+              width: 40,
+              height: 40,
+              child: const Icon(Icons.my_location, color: Colors.blue, size: 32),
+            ),
+            ...lugares.map(
+              (lugar) => Marker(
+                point: LatLng(lugar.lat, lugar.lng),
+                width: 40,
+                height: 40,
+                child: GestureDetector(
+                  onTap: () => Get.to(() => DetailScreen(
+                        place: lugar,
+                        distanciaMetros: controller.distanciaA(lugar),
+                      )),
+                  child: Icon(Icons.place, color: AppTheme.colorPrimario, size: 36),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
