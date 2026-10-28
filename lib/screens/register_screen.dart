@@ -25,7 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    _auth.mensajeError.value = '';
+    // Tras el primer cuadro: borrarlo mientras se construye la ruta redibuja
+    // el Obx de la pantalla anterior y Flutter lanza "setState() during build".
+    WidgetsBinding.instance.addPostFrameCallback((_) => _auth.mensajeError.value = '');
   }
 
   @override
