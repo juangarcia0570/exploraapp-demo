@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 import '../theme/app_theme.dart';
-// Solo lo usan las dos líneas comentadas del Paso 3 (validadores).
-// ignore: unused_import
 import '../utils/validadores.dart';
 
 /// Registro de una cuenta nueva — Sesión 8. Si el servidor acepta el
@@ -57,7 +55,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(labelText: 'Correo', border: OutlineInputBorder()),
-                // TODO(sesion-08) Paso 3: descomenta la línea de abajo (validar el correo).
                 validator: Validadores.correo,
               ),
               const SizedBox(height: AppSpacing.md),
@@ -66,7 +63,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: true,
                 decoration: const InputDecoration(
                     labelText: 'Contraseña (8 a 72 caracteres)', border: OutlineInputBorder()),
-                // TODO(sesion-08) Paso 3: descomenta la línea de abajo (validar la contraseña).
                 validator: Validadores.password,
               ),
               const SizedBox(height: AppSpacing.md),
